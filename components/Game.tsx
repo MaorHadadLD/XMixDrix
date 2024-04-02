@@ -63,9 +63,9 @@ const checkWinner = (board: Player[], player: Player) => {
             onPress={() => handlePress(index)}
           >
             {value === 1 ? (
-              <Image source={require('./assets/x.png')} style={styles.image} />
+              <Image source={require('../assets/letter-x_9416305.png')} style={styles.image} />
             ) : value === 2 ? (
-              <Image source={require('./assets/o.png')} style={styles.image} />
+              <Image source={require('../assets/letter-o_8150900.png')} style={styles.image} />
             ) : null}
           </TouchableOpacity>
         ))}

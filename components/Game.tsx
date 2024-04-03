@@ -91,7 +91,7 @@ const Game = () => {
     return (
         <ImageBackground
             source={require('../assets/XmixDrix.png')}
-            style={styles.container}
+            style={styles.imageBackground}
             imageStyle={{ resizeMode: 'cover' }}
         >
             <Text style={styles.turnText}>
@@ -118,6 +118,13 @@ const Game = () => {
 };
 
 const styles = StyleSheet.create({
+    imageBackground: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     container: {
         flex: 1,
         justifyContent: 'center',

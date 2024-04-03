@@ -94,6 +94,7 @@ const Game = () => {
             style={styles.imageBackground}
             imageStyle={{ resizeMode: 'cover' }}
         >
+            <Text style={styles.title}>Let's start playing {"\n"} X Mix Drix</Text>
             <Text style={styles.turnText}>
                 {player === 1 ? "X's turn to play" : "O's turn to play"}
             </Text>
@@ -124,6 +125,13 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: 'red',
+        textAlign: 'center',
+        marginBottom: 20,
     },
     container: {
         flex: 1,

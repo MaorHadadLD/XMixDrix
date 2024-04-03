@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Alert, Text, ImageBackground } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Alert, Text, ImageBackground, Animated } from 'react-native';
 
 type Player = 1 | 2 | null;
 
@@ -7,6 +7,7 @@ const Game = () => {
     const [board, setBoard] = useState<Player[]>(Array(9).fill(null));
     const [player, setPlayer] = useState<Player>(1);
     const [winner, setWinner] = useState<Player | null>(null);
+    const [animation] = useState(new Animated.Value(0));
 
     const handlePress = (index: number) => {
         if (board[index] || winner) return;
@@ -24,11 +25,22 @@ const Game = () => {
             Alert.alert(`Player ${player} wins!`, undefined, [
                 { text: 'Play Again', onPress: resetGame },
             ]);
+
+            // Start trophy animation
+            startAnimation();
         } else if (!newBoard.includes(null)) {
             Alert.alert("It's a draw!", undefined, [
                 { text: 'Play Again', onPress: resetGame },
             ]);
         }
+    };
+
+    const startAnimation = () => {
+        Animated.timing(animation, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+        }).start();
     };
 
     const checkWinner = (board: Player[], player: Player) => {
@@ -52,6 +64,28 @@ const Game = () => {
         setBoard(Array(9).fill(null));
         setPlayer(1);
         setWinner(null);
+    };
+
+    const TrophyAnimation = () => {
+        return (
+            <Animated.View
+                style={[
+                    styles.trophyContainer,
+                    {
+                        transform: [
+                            {
+                                translateY: animation.interpolate({
+                                    inputRange: [0, 0.5, 1],
+                                    outputRange: [-100, 0, -100],
+                                }),
+                            },
+                        ],
+                    },
+                ]}
+            >
+                <Image source={require('../assets/trophy_3112946.png')} style={styles.trophyImage} />
+            </Animated.View>
+        );
     };
 
     return (
@@ -78,6 +112,7 @@ const Game = () => {
                     </TouchableOpacity>
                 ))}
             </View>
+            {winner && <TrophyAnimation />}
         </ImageBackground>
     );
 };
@@ -85,8 +120,6 @@ const Game = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: '100%',
-        height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -114,5 +147,16 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
     },
+    trophyContainer: {
+        position: 'absolute',
+        top: '20%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    trophyImage: {
+        width: 100,
+        height: 100,
+    },
 });
+
 export default Game;
